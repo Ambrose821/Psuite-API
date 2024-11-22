@@ -1,11 +1,11 @@
 const axios = require('axios');
-const { token } = require('morgan');
 
 
 
+//base url. keep this here and adjust as the graph api changes so there is no need to adjust in each function.
 const base_graph_url = `https://graph.facebook.com/${process.env.GRAPH_API_VERSION}/`;
 
-
+//step 1
 const get_instagram_creation_id = async (instagram_id,access_token, media_url,caption,content_type ="") =>{
 
     try{
@@ -35,7 +35,7 @@ const get_instagram_creation_id = async (instagram_id,access_token, media_url,ca
 
 }   
 
-
+//nested in step 2
 const get_instagram_creation_id_status = async (access_token,creation_id) => {
     const response = await axios.get(
 
@@ -50,6 +50,7 @@ const get_instagram_creation_id_status = async (access_token,creation_id) => {
 
 //Check if an instagram creation id (post container) is ready to be posted
 //Only needed for reels. Photo containers are ready immediatley
+//step 2
 const creation_id_wait_for_ready = async (creation_id,access_token,instagram_id) => {
 
     return new Promise(async (resolve, reject) => {
@@ -89,6 +90,7 @@ const creation_id_wait_for_ready = async (creation_id,access_token,instagram_id)
     
 }
 
+//step 3
 const instagram_upload = async(insta_id,creation_id,access_token) =>{
     return new Promise(async (resolve, reject) => {
         
@@ -111,13 +113,15 @@ const instagram_upload = async(insta_id,creation_id,access_token) =>{
     })  
 }
 
+//post functions wrapped
+//acts as controller to all the steps of the posting process
 const post_to_instagram = async (instagram_id, access_token, media_url, caption, content_type = "") => {
 
     return new Promise(async (resolve, reject) => {
         try {
             const creation_id = await get_instagram_creation_id(instagram_id, access_token, media_url, caption, content_type);
-            const data = await instagram_upload(creation_id);
-            resolve(data);
+            const post_data = await instagram_upload(creation_id);
+            resolve(post_data);
             
         } catch (error) {
             console.error("post_to_instagram error: " +error)
@@ -141,6 +145,6 @@ const post_to_instagram = async (instagram_id, access_token, media_url, caption,
 
 
 
-module.exports = {get_instagram_creation_id}
+module.exports = {post_to_instagram}
 
 
