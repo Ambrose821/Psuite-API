@@ -11,6 +11,15 @@ var dotenv = require('dotenv');
 
 dotenv.config({path: './config/config.env'})
 
+//Models
+const Post = require('./models/Post');
+
+//MongoDB Middleware
+var mongoose = require('mongoose');
+var MongoStore = require("connect-mongo"); //For sessions
+const {connectDB} = require("./config/db"); 
+connectDB();
+
 
 var app = express();
 
