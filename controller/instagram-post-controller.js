@@ -1,5 +1,4 @@
 const axios = require('axios')
-
 const post_to_instagram = async (req, res, next) => {
     //TODO A user may have the option to instantly post to a platform.
     //In this case a file recieved will have to be uploaded to AWS S3 bucket so that there is

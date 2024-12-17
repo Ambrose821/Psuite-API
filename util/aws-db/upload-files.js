@@ -1,7 +1,7 @@
 
 const AWS = require('aws-sdk')
 
-const upload_video_file_s3 = async(file,bucketName) =>{
+const upload_file_s3 = async(file,bucketName) =>{
     try {
           
         console.log(process.env.AWSS3_ACCESS,process.env.AWSS3_SECRET)
@@ -12,7 +12,7 @@ const upload_video_file_s3 = async(file,bucketName) =>{
             }
         })
 
-        const newFileName = `vid_${Date.now().toString()}.${file.mimetype.split('/')[1]}`
+        const newFileName = `media_${Date.now().toString()}.${file.mimetype.split('/')[1]}`
 
         const params ={
             Bucket:bucketName,
@@ -41,4 +41,4 @@ const upload_video_file_s3 = async(file,bucketName) =>{
 
 }
 
-module.exports = {upload_video_file_s3}
+module.exports = {upload_file_s3}

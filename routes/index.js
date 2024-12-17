@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {upload_video_s3} = require("../controller/videoController")
+const {upload_video_s3} = require("../controller/video-controller")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

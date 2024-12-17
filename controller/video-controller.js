@@ -1,10 +1,10 @@
 
-const {upload_video_file_s3} = require("../util/aws-db/upload-files")
+const {upload_file_s3} = require("../util/aws-db/upload-files")
 const upload_video_s3 = async(req,res,next) =>{
 
     try{
         if(req.files.video){ 
-            const result = await upload_video_file_s3(req.files.video,process.env.AWSS3_BUCK_NAME)
+            const result = await upload_file_s3(req.files.video,process.env.AWSS3_BUCK_NAME)
             return res.status(201).json({
                 message:"Success",
                 body: result
