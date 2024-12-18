@@ -12,7 +12,7 @@ const PostSchema = new mongoose.Schema({
     media_type:{
         type: String,
         required: true,
-        enum: ['photo','video','multi']
+        enum: ['photo','video','multi','none']
     },
     media:{
         type: [String],
@@ -39,6 +39,11 @@ const PostSchema = new mongoose.Schema({
         enum: PLATFORM_ENUM,
         default:[],
         
+    },
+
+    instructions:{
+        type: String,
+        default:null
     }
 
 

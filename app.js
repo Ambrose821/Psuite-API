@@ -12,7 +12,7 @@ var dotenv = require('dotenv');
 dotenv.config({path: './config/config.env'})
 
 //Models
-const Post = require('./models/Post');
+const Post = require('./models/Posts/Post');
 
 //MongoDB Middleware
 var mongoose = require('mongoose');
@@ -46,7 +46,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  
 });
 
 module.exports = app;

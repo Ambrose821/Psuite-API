@@ -2,6 +2,7 @@
 const AWS = require('aws-sdk')
 
 const upload_file_s3 = async(file,bucketName) =>{
+    return new Promise((resolve,reject)=>{
     try {
           
         console.log(process.env.AWSS3_ACCESS,process.env.AWSS3_SECRET)
@@ -20,7 +21,7 @@ const upload_file_s3 = async(file,bucketName) =>{
             Body: file.data,
             ContentType: file.mimetype, // Add the correct Content-Type
         }
-       return new Promise((resolve,reject)=>{
+      
         s3.upload(params,{},(err,data)=>{
             if(err){
                 console.error(err)
@@ -29,16 +30,21 @@ const upload_file_s3 = async(file,bucketName) =>{
             }
             else{
                 console.log(data)
-                resolve(data)
+                resolve(data.Location)
             }
         })
-       })
+      
         
     }catch(error){
         console.error(error)
+        reject(error)
 
     }
+})
 
 }
+
+
+
 
 module.exports = {upload_file_s3}

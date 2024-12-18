@@ -28,7 +28,7 @@ const create_post = async (caption, media_arr,media_type, platforms) => {
     
 }
 //editor has made changes
-const edit_post = async (id,new_caption = "",new_media_arr =[] ,new_platforms = [],new_media_type="") =>{
+const edit_post = async (id,new_caption,new_media_arr ,new_platforms,new_media_type) =>{
     return new Promise(async(resolve, reject) =>{
 
         try{
@@ -37,7 +37,7 @@ const edit_post = async (id,new_caption = "",new_media_arr =[] ,new_platforms = 
         
             if (!current_post) {
                 console.error("Post not found with ID: " + id);
-                return false;
+                reject(new Error('No Post Objec Found for id:  '+ id));
             }
         
             const current_caption =current_post.caption
@@ -55,7 +55,7 @@ const edit_post = async (id,new_caption = "",new_media_arr =[] ,new_platforms = 
         
             await old_post.save();
         
-            current_post.status = "pending";
+            current_post.status = "draft";
             current_post.media = (new_media_arr) ? new_media_arr : current_media;
             current_post.caption = (new_caption) ? new_caption: current_caption;
             current_post.media_type = (new_media_type) ? new_media_type: current_type;
