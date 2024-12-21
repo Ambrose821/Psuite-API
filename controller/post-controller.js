@@ -2,7 +2,7 @@ const axios = require('axios')
 const {edit_post, create_post} = require('../models/Posts/post-mapper')
 const {upload_file_s3} = require('../util/aws-db/upload-files')
 const {file_type_check, batch_file_type_check,batch_url_file_type_check} = require('../util/file_handleing/file-type-check')
-const { RolesAnywhere } = require('aws-sdk')
+
 
 
 
