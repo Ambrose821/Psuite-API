@@ -1,5 +1,5 @@
 const axios = require('axios')
-const {edit_post, create_post} = require('../models/Posts/post-mapper')
+const {edit_post, create_post, get_all_posts, get_post_by_id} = require('../models/Posts/post-mapper')
 const {upload_file_s3} = require('../util/aws-db/upload-files')
 const {file_type_check, batch_file_type_check,batch_url_file_type_check} = require('../util/file_handleing/file-type-check')
 
@@ -72,7 +72,34 @@ const edit_draft = (nest_post) =>{
     }
 }
 
-//save previous version of posts in collections
+const all_posts = async(req,res,next) =>{
+    try{
+
+        posts = await get_all_posts();
+        return res.status(200).json({posts:posts})
+
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({error: err.toString()})
+
+    }
+}
+
+const get_post_from_id = async(req,res,next) =>{
+    try{
+
+        post = await get_post_by_id(req.params.id);
+        return res.status(200).json({post:post})
+        
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({error: err.toString()})
+
+    }
+}
+
+
+
 
 
 
@@ -103,4 +130,4 @@ const request_edit = async (req,res,next) =>{
     }
 }
 
-module.exports = {upload_draft, edit_draft}
+module.exports = {upload_draft, edit_draft,all_posts,get_post_from_id}

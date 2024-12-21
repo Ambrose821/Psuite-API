@@ -127,7 +127,18 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
 
 }
 
+const get_all_posts = async () =>{
+    const posts = await Post.find({is_parent: true}).lean()
+    return posts;
+}
+
+const get_post_by_id = async(id) =>{
+
+    const post = await Post.findById(id).populate(previous_versions).lean()
+    return post;
+
+}
 
 
 
-module.exports = {edit_post,create_post}
+module.exports = {edit_post,create_post,get_all_posts,get_post_by_id}
