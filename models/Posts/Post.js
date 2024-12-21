@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const PLATFORM_ENUM = ['instagram','tiktok','facebook','youtube'];
 
 const PostSchema = new mongoose.Schema({
+    title:{
+        type:String,
+        default: 'untitled'
+    },
 
     caption: {
         type: String,
@@ -12,7 +16,7 @@ const PostSchema = new mongoose.Schema({
     media_type:{
         type: String,
         required: true,
-        enum: ['photo','video','multi','none']
+        enum: ['image','video','multi','none']
     },
     media:{
         type: [String],
@@ -22,6 +26,12 @@ const PostSchema = new mongoose.Schema({
         type: Date,
         default:Date.now
     },
+
+    date_scheduled: {
+        type: Date,
+        deafault:null
+    },
+
     status:{
         type: String,
         enum: ['posted','scheduled','draft','rejected'],
@@ -33,6 +43,7 @@ const PostSchema = new mongoose.Schema({
             { type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
         default: []
         },
+
     platforms:
     {
         type:[String],

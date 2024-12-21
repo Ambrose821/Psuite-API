@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev" : "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
-    "aws-sdk": "^2.1692.0",
+    "@aws-sdk/client-s3": "^3.716.0",
+    
     "axios": "^1.7.7",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "~1.4.4",
@@ -19,6 +20,7 @@
     "jade": "^0.29.0",
     "mongoose": "^8.8.3",
     "morgan": "~1.9.1",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "uuid": "^11.0.3"
   }
 }
