@@ -134,7 +134,7 @@ const get_all_posts = async () =>{
 
 const get_post_by_id = async(id) =>{
 
-    const post = await Post.findById(id).populate('post').lean()
+    const post = await Post.findById(id).populate('previous_versions').lean()
     return post;
 
 }
