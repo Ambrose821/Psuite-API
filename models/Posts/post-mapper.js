@@ -70,19 +70,19 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
 
             let aws_to_delete = detect_deleted_media(current_media,new_media_arr);
             
-            console.log(aws_to_delete)
+            //console.log(aws_to_delete)
             //extract the aws object key from the aws media url
             
 
-            console.log(aws_to_delete)
+           //console.log(aws_to_delete)
             aws_to_delete = aws_to_delete.map(get_aws_object_key)
 
-            console.log(aws_to_delete)
+           // console.log(aws_to_delete)
 
             //delete files from s3 bucks if any
             if(aws_to_delete.length>0){
             
-            await delete_file_s3(process.env.AWSS3_BUCK_NAME,aws_to_delete);
+             await delete_file_s3(process.env.AWSS3_BUCK_NAME,aws_to_delete);
             }
             //Offers a choice as to whether or not a post will save the old post object version in its previous_versions collection
             if(nest_post){
@@ -94,10 +94,13 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
                     media_type: current_type,
                     platforms: current_platforms,
                     date_scheduled:current_date_scheduled,
-                    status: 'rejected'
+                    status: 'rejected',
+                    is_parent: false
+
                 })
             
                 await old_post.save();
+                current_post.previous_versions.push(old_post._id);
            }
         
             current_post.status = "draft";
@@ -107,10 +110,7 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
             current_post.media_type =  new_media_type
             current_post.platforms = new_platforms
             current_post.date_scheduled =  new_scheduled_at 
-            //Only save previous version if nest_Post is true
-            if(nest_post){
-                current_post.previous_versions.push(old_post._id);
-            }
+            
             
         
             await current_post.save();

@@ -55,6 +55,11 @@ const PostSchema = new mongoose.Schema({
     instructions:{
         type: String,
         default:null
+    },
+
+    is_parent:{
+        type: Boolean,
+        default:true
     }
 
 
