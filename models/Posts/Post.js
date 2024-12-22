@@ -33,7 +33,7 @@ const PostSchema = new mongoose.Schema({
     },
     updatedAt: {
         type: Date,
-        deafault: Date.now
+        default: Date.now
     },
     status:{
         type: String,
