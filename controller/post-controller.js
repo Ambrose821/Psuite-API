@@ -1,5 +1,5 @@
 const axios = require('axios')
-const {edit_post, create_post, get_all_posts, get_post_by_id} = require('../models/Posts/post-mapper')
+const {edit_post, create_post, get_all_posts, get_post_by_id,delete_post} = require('../models/Posts/post-mapper')
 const {upload_file_s3} = require('../util/aws-db/upload-files')
 const {file_type_check, batch_file_type_check,batch_url_file_type_check} = require('../util/file_handleing/file-type-check')
 
@@ -99,7 +99,17 @@ const get_post_from_id = async(req,res,next) =>{
 }
 
 
+const delete_post_by_id = async(req,res,next) =>{
 
+        try{
+        const message = await delete_post(req.params.id);
+        res.status(200).json({message:message})
+        }catch(err) {
+            res.status(500).json({message: err.toString()})
+        }
+
+
+}   
 
 
 
@@ -132,4 +142,4 @@ const request_edit = async (req,res,next) =>{
     }
 }
 
-module.exports = {upload_draft, edit_draft,all_posts,get_post_from_id}
+module.exports = {upload_draft, edit_draft,all_posts,get_post_from_id,delete_post_by_id}

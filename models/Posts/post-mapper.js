@@ -110,7 +110,7 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
             current_post.caption = new_caption
             current_post.media_type =  new_media_type
             current_post.platforms = new_platforms
-            current_post.date_scheduled =  new_scheduled_at 
+            current_post.scheduledAt =  new_scheduled_at 
             current_post.updatedAt = Date.now();
             
             
@@ -128,6 +128,46 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
 
 
 }
+/*
+*******************TODO HOW DO YOU WANNA DEAL WITH MULTIPLE POSTS USING THE SAME MEDIA URL***********************
+*/
+const delete_post = async (id) =>{
+
+    return new Promise(async (resolve, reject) =>{
+
+        try{
+            const post = await Post.findById(id).lean()
+            if(!post){
+                resolve("No Post exists with id: "+id)
+            }
+
+            let media_arr = post.media;
+        
+            media_arr = media_arr.map(get_aws_object_key);
+        
+            if(media_arr.length >0){
+                await delete_file_s3(process.env.AWSS3_BUCK_NAME,media_arr)
+            }
+        
+            if(post.previous_versions.length > 0){
+                for(let i = 0; i < post.previous_versions.length; i++){
+                    await delete_post(post.previous_versions[i]);
+                }
+                
+            }
+            await Post.deleteOne({_id: id});
+            console.log("Deleted: " +id)
+            resolve('Deleted: ' +id)
+    }catch(err){
+        console.error("Error deleting Post object: " + err);
+        reject(new Error(err))
+    }
+    
+
+    })
+ 
+    
+}
 
 const get_all_posts = async () =>{
     const posts = await Post.find({is_parent: true}).lean()
@@ -137,10 +177,11 @@ const get_all_posts = async () =>{
 const get_post_by_id = async(id) =>{
 
     const post = await Post.findById(id).populate('previous_versions').lean()
+    
     return post;
 
 }
 
 
 
-module.exports = {edit_post,create_post,get_all_posts,get_post_by_id}
+module.exports = {edit_post,create_post,get_all_posts,get_post_by_id,delete_post}
