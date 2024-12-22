@@ -151,7 +151,7 @@ const delete_post = async (id) =>{
         
             if(post.previous_versions.length > 0){
                 for(let i = 0; i < post.previous_versions.length; i++){
-                    await delete_post(post.previous_versions[i]);
+                    await Post.deleteOne({_id: post.previous_versions[i]})
                 }
                 
             }
