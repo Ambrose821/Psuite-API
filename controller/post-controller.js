@@ -45,7 +45,7 @@ const edit_draft = (nest_post) =>{
         let {_id,title,caption,media, platforms,scheduledAt} = req.body;
         
         if(scheduledAt){
-            scheduledAt= new Date(scheduled_at);
+            scheduledAt= new Date(scheduledAt);
         }
         
          if(typeof media === 'string'){
