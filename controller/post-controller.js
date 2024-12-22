@@ -9,7 +9,7 @@ const {file_type_check, batch_file_type_check,batch_url_file_type_check} = requi
 const upload_draft = async (req,res,next) =>{
 
     try{
-        let  {title, caption, media, platforms,scheduled_at} = req.body;
+        let  {title, caption, media, platforms,scheduledAt} = req.body;
      
         if(typeof platforms === 'string'){
             platforms = JSON.parse(platforms)
@@ -22,7 +22,7 @@ const upload_draft = async (req,res,next) =>{
         const media_type = batch_url_file_type_check(media);
 
         //Mapper Functionality
-        const new_post = await create_post(title,caption,media,media_type,platforms,scheduled_at)
+        const new_post = await create_post(title,caption,media,media_type,platforms,scheduledAt)
         return res.status(200).json({post: new_post})
         
     }catch(err){
@@ -42,10 +42,10 @@ const edit_draft = (nest_post) =>{
 
     
     try{
-        let {id,title,caption,media, platforms,scheduled_at} = req.body;
+        let {_id,title,caption,media, platforms,scheduledAt} = req.body;
         
-        if(scheduled_at){
-            scheduled_at = new Date(scheduled_at);
+        if(scheduledAt){
+            scheduledAt= new Date(scheduled_at);
         }
         
          if(typeof media === 'string'){
@@ -61,7 +61,7 @@ const edit_draft = (nest_post) =>{
          
         
 
-        const new_post = await edit_post(id,title,caption,media,platforms,media_type,scheduled_at,nest_post);
+        const new_post = await edit_post(_id,title,caption,media,platforms,media_type,scheduledAt,nest_post);
        return res.status(200).json({post: new_post});
     }catch(err){
         console.log(err)
@@ -97,6 +97,8 @@ const get_post_from_id = async(req,res,next) =>{
 
     }
 }
+
+
 
 
 
