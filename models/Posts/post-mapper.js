@@ -20,7 +20,7 @@ const create_post = async (title,caption, media_arr,media_type, platforms,schedu
                 media_type: media_type,
                 media:media_arr,
                 platforms: platforms,
-                date_scheduled: scheduled_at
+                scheduledAt: scheduled_at
     
             })
             await post.save();
@@ -66,7 +66,8 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
             const current_media =current_post.media;
             const current_type = current_post.media_type;
             const current_platforms = current_post.platforms;
-            const current_date_scheduled = current_post.date_scheduled;
+            const current_date_scheduled = current_post.scheduledAt;
+
 
             let aws_to_delete = detect_deleted_media(current_media,new_media_arr);
             
@@ -93,7 +94,7 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
                     media: current_media,
                     media_type: current_type,
                     platforms: current_platforms,
-                    date_scheduled:current_date_scheduled,
+                    scheduledAt:current_date_scheduled,
                     status: 'rejected',
                     is_parent: false
 
@@ -110,6 +111,7 @@ const edit_post = async (id,new_title,new_caption, new_media_arr ,new_platforms,
             current_post.media_type =  new_media_type
             current_post.platforms = new_platforms
             current_post.date_scheduled =  new_scheduled_at 
+            current_post.updatedAt = Date.now();
             
             
         

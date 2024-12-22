@@ -22,19 +22,22 @@ const PostSchema = new mongoose.Schema({
         type: [String],
         default: [],
     },
-    date_created :{
+    createdAt :{
         type: Date,
         default:Date.now
     },
 
-    date_scheduled: {
+    scheduledAt: {
         type: Date,
         deafault:null
     },
-
+    updatedAt: {
+        type: Date,
+        deafault: Date.now
+    },
     status:{
         type: String,
-        enum: ['posted','scheduled','draft','rejected'],
+        enum: ['published','scheduled','draft','rejected'],
         default: 'draft'
     },
 
