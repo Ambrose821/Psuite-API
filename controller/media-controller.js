@@ -16,7 +16,7 @@ const upload_media_s3 = async(req,res,next) =>{
         return res.status(500).json({
             message:
             
-            "Error Uploading video to s3" + JSON.stringify(error)
+            "Error Uploading video to s3: " + error.toString()
         })
     }
 

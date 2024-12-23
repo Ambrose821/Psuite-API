@@ -169,6 +169,36 @@ const delete_post = async (id) =>{
     
 }
 
+const get_scheduled_in_range = async (start_date, end_date) =>{
+
+    return new Promise(async (resolve,reject) =>{
+        console.log(start_date)
+        console.log(end_date)
+        try{
+            const posts = await Post.find({
+                scheduledAt:{
+                    $gte: start_date,
+                    $lte: end_date
+                }
+            }).lean()
+            if(!posts){
+                console.log(`No posts within the range ${start_date} and ${end_date}`)
+          
+            }
+    
+            resolve(posts)
+    
+    
+        }catch(err){
+            console.error('Error in get_scheduled_in_range'+err)
+            reject(new Error(err))
+        }
+
+    })
+  
+
+}
+
 const get_all_posts = async () =>{
     const posts = await Post.find({is_parent: true}).lean()
     return posts;
@@ -184,4 +214,4 @@ const get_post_by_id = async(id) =>{
 
 
 
-module.exports = {edit_post,create_post,get_all_posts,get_post_by_id,delete_post}
+module.exports = {edit_post,create_post,get_all_posts,get_post_by_id,delete_post, get_scheduled_in_range}

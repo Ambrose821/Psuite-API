@@ -29,7 +29,7 @@ const PostSchema = new mongoose.Schema({
 
     scheduledAt: {
         type: Date,
-        deafault:null
+        default:null
     },
     updatedAt: {
         type: Date,

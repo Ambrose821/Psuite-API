@@ -1,7 +1,8 @@
 const axios = require('axios')
-const {edit_post, create_post, get_all_posts, get_post_by_id,delete_post} = require('../models/Posts/post-mapper')
+const {edit_post, create_post, get_all_posts, get_post_by_id,delete_post,get_scheduled_in_range} = require('../models/Posts/post-mapper')
 const {upload_file_s3} = require('../util/aws-db/upload-files')
 const {file_type_check, batch_file_type_check,batch_url_file_type_check} = require('../util/file_handleing/file-type-check')
+const { RestoreObjectCommand } = require('@aws-sdk/client-s3')
 
 
 
@@ -111,6 +112,25 @@ const delete_post_by_id = async(req,res,next) =>{
 
 }   
 
+const get_scheduled_posts_in_range = async(req,res,next) =>{
+    try{
+        const start = decodeURI(req.query.start);
+        const start_date = new Date(start);
+
+        const end = decodeURI(req.query.end);
+        const end_date = new Date(end)
+
+      
+        const posts = await get_scheduled_in_range(start_date,end_date)
+
+        return res.status(200).json({posts:posts})
+
+
+    }catch(err){
+        res.status(500).json({Error: err.toString()})
+    }
+}
+
 
 
 
@@ -142,4 +162,4 @@ const request_edit = async (req,res,next) =>{
     }
 }
 
-module.exports = {upload_draft, edit_draft,all_posts,get_post_from_id,delete_post_by_id}
+module.exports = {upload_draft, edit_draft,all_posts,get_post_from_id,delete_post_by_id, get_scheduled_posts_in_range}
